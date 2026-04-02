@@ -13,193 +13,220 @@
 
         body {
             font-family: "Microsoft YaHei", "SimHei", sans-serif;
-            background: linear-gradient(135deg, #8b0000 0%, #d32f2f 100%);
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); /* Softer, warmer colors */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* Floating Peach Blossoms Background */
-        .blossom {
-            position: absolute;
-            font-size: 1.5em;
-            color: #ffb7c5;
-            user-select: none;
-            animation: floatDown linear infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes floatDown {
-            0% { transform: translateY(-10vh) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* Elegant Glass Card */
         .card-container {
             width: 90%;
             max-width: 450px;
             height: 600px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            border: 2px solid rgba(212, 175, 55, 0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid #ff6b6b;
             position: relative;
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            z-index: 10;
         }
 
-        /* Slide Transitions */
         .slide {
             display: none;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.5s ease-in-out;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 85%;
+            width: 90%;
         }
 
         .slide.active {
             display: block;
             opacity: 1;
-            animation: gentleFade 1s ease-in-out;
         }
 
-        @keyframes gentleFade {
-            from { opacity: 0; transform: translate(-50%, -45%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
+        h1 { color: #d32f2f; font-size: 2em; margin-bottom: 15px; }
+        p { color: #333; font-size: 1.3em; line-height: 1.6; font-weight: bold; margin-bottom: 10px; }
+        .icon { font-size: 4em; margin-bottom: 10px; display: block; }
+        .page-num { font-size: 0.9em; color: #999; position: absolute; top: -80px; width: 100%; text-align: center; }
 
-        /* Typography */
-        h1 { color: #b71c1c; font-size: 2.2em; margin-bottom: 20px; letter-spacing: 2px; }
-        p { color: #444; font-size: 1.3em; line-height: 1.8; font-weight: 500; margin-bottom: 10px; }
-        .gold-text { color: #d4af37; font-weight: bold; font-size: 1.2em;}
-        .icon { font-size: 3.5em; margin-bottom: 15px; display: block; filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.1)); }
-        .small-text { font-size: 1em; color: #666; margin-top: 20px; }
-
-        /* Glowing Button */
         .btn {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 35px;
-            background: linear-gradient(45deg, #d4af37, #b8860b);
+            padding: 12px 30px;
+            background-color: #ff6b6b;
             color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            transition: all 0.3s ease;
-            z-index: 20;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
             white-space: nowrap;
         }
 
-        .btn:hover {
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        .btn:hover { background-color: #ff4757; }
+
+        /* Game Styles */
+        .game-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
         }
+        .envelope {
+            width: 80px;
+            height: 100px;
+            background-color: #d32f2f;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            border: 2px solid #ffd700;
+        }
+        .envelope:active { transform: scale(0.9); }
+        #game-message { color: #d32f2f; font-size: 1.2em; font-weight: bold; margin-top: 15px; height: 30px; }
     </style>
 </head>
 <body>
 
-<div id="blossoms-container"></div>
-
 <div class="card-container">
+    
     <div class="slide active">
-        <span class="icon">🏮</span>
-        <h1>曹怡芳 外婆</h1>
-        <p>祝您生日快乐</p>
-        <p class="gold-text">2026年5月23日</p>
-    </div>
-
-    <div class="slide">
-        <span class="icon">🕊️</span>
-        <h1>岁月长情</h1>
-        <p>从小到大，<br>都是您温柔地牵着我的手。</p>
-        <p>您的掌心，<br>是我记忆里最温暖的地方。</p>
-    </div>
-
-    <div class="slide">
-        <span class="icon">🍲</span>
-        <h1>感恩有您</h1>
-        <p>忘不了您做的一日三餐，<br>还有您看我时，眼里满满的笑意。</p>
-        <p class="gold-text">外婆，您真的辛苦了！</p>
-    </div>
-
-    <div class="slide">
+        <div class="page-num">1 / 10</div>
         <span class="icon">🎂</span>
-        <h1>欢聚一堂</h1>
-        <p>今天是您的专属节日！</p>
-        <p>我们要一起吃甜甜的蛋糕，<br>看您笑得像花儿一样灿烂。</p>
+        <h1>曹怡芳 外婆</h1>
+        <p>祝您生日快乐！</p>
+        <p style="color: #ff6b6b;">5月23日</p>
     </div>
 
     <div class="slide">
-        <span class="icon">🌲</span>
-        <h1>松鹤延年</h1>
-        <p>祈愿外婆：<br>福如东海长流水，<br>寿比南山不老松。</p>
-        <p>愿您身体健健康康，无病无灾！</p>
+        <div class="page-num">2 / 10</div>
+        <span class="icon">🌍</span>
+        <h1>好远好远</h1>
+        <p>外婆，我现在在加拿大，<br>您在中国。</p>
     </div>
 
     <div class="slide">
+        <div class="page-num">3 / 10</div>
+        <span class="icon">✈️</span>
+        <h1>好想您</h1>
+        <p>我们离得那么远，<br>我已经很久没看到您了。</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">4 / 10</div>
+        <span class="icon">❤️</span>
+        <h1>一直想着您</h1>
+        <p>虽然见不到面，<br>但是我每天都在想您！</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">5 / 10</div>
+        <span class="icon">🍲</span>
+        <h1>小时候</h1>
+        <p>我记得小时候，<br>您对我特别好。<br>您做的饭也特别好吃！</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">6 / 10</div>
+        <span class="icon">🍵</span>
+        <h1>听话哦</h1>
+        <p>外婆，您在家要乖乖吃饭，<br>多穿衣服，别感冒啦。</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">7 / 10</div>
+        <span class="icon">📞</span>
+        <h1>打电话</h1>
+        <p>我会多给您打电话的。<br>等我放假了，<br>我就回去看您！</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">8 / 10</div>
+        <span class="icon">🎮</span>
+        <h1>玩游戏啦</h1>
+        <p>外婆，我给您准备了<br>一个小游戏！<br>点下一页开始吧！</p>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">9 / 10</div>
+        <h1>找礼物游戏</h1>
+        <p style="font-size: 1.1em;">请点一下下面的红包，<br>找找看寿桃藏在哪个里面？</p>
+        
+        <div class="game-container">
+            <div class="envelope" onclick="checkGame(this, false)">🧧</div>
+            <div class="envelope" onclick="checkGame(this, true)">🧧</div>
+            <div class="envelope" onclick="checkGame(this, false)">🧧</div>
+        </div>
+        <div id="game-message"></div>
+    </div>
+
+    <div class="slide">
+        <div class="page-num">10 / 10</div>
         <span class="icon">💖</span>
-        <h1>岁岁平安</h1>
-        <p>愿时光慢一点，<br>让我们能陪您更久、更久。</p>
-        <p class="gold-text">我们永远、永远爱您！</p>
-        <p class="small-text">—— 您的家人 敬上</p>
+        <h1>永远爱您</h1>
+        <p>外婆，祝您天天开心，<br>身体健健康康！</p>
+        <p style="color: #ff6b6b;">我最爱您了！</p>
     </div>
 
-    <button class="btn" onclick="nextSlide()">开启祝福 ✨</button>
+    <button class="btn" id="nextBtn" onclick="nextSlide()">下一页</button>
 </div>
 
 <script>
-    // Logic for sliding through the cards
     let current = 0;
     const slides = document.querySelectorAll('.slide');
-    const btn = document.querySelector('.btn');
+    const btn = document.getElementById('nextBtn');
+    let gameWon = false;
 
     function nextSlide() {
         slides[current].classList.remove('active');
         current = (current + 1) % slides.length;
         slides[current].classList.add('active');
 
-        // Change button text based on the slide
-        if (current === 0) {
-            btn.innerHTML = "开启祝福 ✨";
-        } else if (current === slides.length - 1) {
-            btn.innerHTML = "重新回顾 ❤️";
+        if (current === slides.length - 1) {
+            btn.innerHTML = "重新看一遍";
         } else {
-            btn.innerHTML = "下一页 ✨";
+            btn.innerHTML = "下一页";
         }
     }
 
-    // Logic for creating falling peach blossoms
-    const container = document.getElementById('blossoms-container');
-    const blossomIcons = ['🌸', '💮', '✨', '🏮'];
+    // Game Logic
+    function checkGame(element, isWinner) {
+        const messageBox = document.getElementById('game-message');
+        
+        // Reset all envelopes first to avoid bugs if she clicks multiple
+        const envelopes = document.querySelectorAll('.envelope');
+        envelopes.forEach(env => {
+            env.innerHTML = "🧧";
+            env.style.backgroundColor = "#d32f2f";
+        });
 
-    for (let i = 0; i < 25; i++) {
-        let blossom = document.createElement('div');
-        blossom.className = 'blossom';
-        blossom.innerText = blossomIcons[Math.floor(Math.random() * blossomIcons.length)];
-        
-        // Randomize position, size, and animation duration
-        blossom.style.left = Math.random() * 100 + 'vw';
-        blossom.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
-        blossom.style.animationDuration = (Math.random() * 6 + 6) + 's';
-        blossom.style.animationDelay = Math.random() * 5 + 's';
-        
-        container.appendChild(blossom);
+        if (isWinner) {
+            element.innerHTML = "🍑";
+            element.style.backgroundColor = "#ffd700"; // Gold color
+            messageBox.innerHTML = "太棒啦！找到寿桃啦！👏";
+            messageBox.style.color = "#4CAF50"; // Green for success
+        } else {
+            element.innerHTML = "空";
+            element.style.backgroundColor = "#ccc"; // Gray for empty
+            messageBox.innerHTML = "不在这里，再猜一次！";
+            messageBox.style.color = "#d32f2f";
+        }
     }
 </script>
 
