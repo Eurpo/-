@@ -13,7 +13,7 @@
 
         body {
             font-family: "Microsoft YaHei", "SimHei", sans-serif;
-            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); /* Softer, warmer colors */
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -99,7 +99,27 @@
             border: 2px solid #ffd700;
         }
         .envelope:active { transform: scale(0.9); }
-        #game-message { color: #d32f2f; font-size: 1.2em; font-weight: bold; margin-top: 15px; height: 30px; }
+        
+        #game-message { 
+            color: #d32f2f; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            margin-top: 20px; 
+            min-height: 80px; 
+        }
+
+        /* Pop animation for the secret message */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .secret-message {
+            display: block;
+            font-size: 1.6em;
+            margin-top: 15px;
+            animation: popIn 0.6s ease-out forwards;
+        }
     </style>
 </head>
 <body>
@@ -166,7 +186,7 @@
     <div class="slide">
         <div class="page-num">9 / 10</div>
         <h1>找礼物游戏</h1>
-        <p style="font-size: 1.1em;">请点一下下面的红包，<br>找找看寿桃藏在哪个里面？</p>
+        <p style="font-size: 1.1em; margin-bottom: 5px;">请点一下下面的红包，<br>找找看寿桃藏在哪个里面？</p>
         
         <div class="game-container">
             <div class="envelope" onclick="checkGame(this, false)">🧧</div>
@@ -181,7 +201,7 @@
         <span class="icon">💖</span>
         <h1>永远爱您</h1>
         <p>外婆，祝您天天开心，<br>身体健健康康！</p>
-        <p style="color: #ff6b6b;">我最爱您了！</p>
+        <p style="color: #ff6b6b;">一哥最爱您了！</p>
     </div>
 
     <button class="btn" id="nextBtn" onclick="nextSlide()">下一页</button>
@@ -191,7 +211,6 @@
     let current = 0;
     const slides = document.querySelectorAll('.slide');
     const btn = document.getElementById('nextBtn');
-    let gameWon = false;
 
     function nextSlide() {
         slides[current].classList.remove('active');
@@ -209,7 +228,7 @@
     function checkGame(element, isWinner) {
         const messageBox = document.getElementById('game-message');
         
-        // Reset all envelopes first to avoid bugs if she clicks multiple
+        // Reset all envelopes first
         const envelopes = document.querySelectorAll('.envelope');
         envelopes.forEach(env => {
             env.innerHTML = "🧧";
@@ -219,13 +238,15 @@
         if (isWinner) {
             element.innerHTML = "🍑";
             element.style.backgroundColor = "#ffd700"; // Gold color
-            messageBox.innerHTML = "太棒啦！找到寿桃啦！👏";
-            messageBox.style.color = "#4CAF50"; // Green for success
+            
+            // This is where the custom nickname, heart, and cake pop up!
+            messageBox.innerHTML = "太棒啦！找到寿桃啦！👏<br><span class='secret-message'>❤️ 一哥爱你！ 🎂</span>";
+            messageBox.style.color = "#d32f2f";
         } else {
             element.innerHTML = "空";
             element.style.backgroundColor = "#ccc"; // Gray for empty
             messageBox.innerHTML = "不在这里，再猜一次！";
-            messageBox.style.color = "#d32f2f";
+            messageBox.style.color = "#666";
         }
     }
 </script>
