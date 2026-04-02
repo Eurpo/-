@@ -13,69 +13,99 @@
 
         body {
             font-family: "Microsoft YaHei", "SimHei", sans-serif;
-            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); 
+            /* Animated background */
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #ffb199, #ff0844);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background items */
+        .floating-item {
+            position: absolute;
+            bottom: -10%;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            user-select: none;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Frosted Glass Card */
         .card-container {
             width: 90%;
             max-width: 450px;
             height: 600px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 4px solid #ff6b6b;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 3px solid rgba(255, 255, 255, 0.5);
             position: relative;
             text-align: center;
             padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            z-index: 10;
         }
 
         .slide {
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -40%);
             width: 90%;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy transition */
         }
 
         .slide.active {
             display: block;
             opacity: 1;
+            transform: translate(-50%, -50%);
         }
 
-        h1 { color: #d32f2f; font-size: 2em; margin-bottom: 15px; }
-        p { color: #333; font-size: 1.3em; line-height: 1.6; font-weight: bold; margin-bottom: 10px; }
-        .icon { font-size: 4em; margin-bottom: 10px; display: block; }
-        .page-num { font-size: 0.9em; color: #999; position: absolute; top: -80px; width: 100%; text-align: center; }
+        h1 { color: #d32f2f; font-size: 2.2em; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        p { color: #444; font-size: 1.3em; line-height: 1.6; font-weight: bold; margin-bottom: 10px; }
+        .icon { font-size: 4.5em; margin-bottom: 10px; display: block; }
+        .page-num { font-size: 1em; color: #888; position: absolute; top: -60px; width: 100%; text-align: center; font-weight: bold; }
 
         .btn {
             position: absolute;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 30px;
-            background-color: #ff6b6b;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
             color: white;
             border: none;
             border-radius: 30px;
             cursor: pointer;
             font-size: 1.2em;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
             white-space: nowrap;
+            transition: transform 0.2s;
         }
 
-        .btn:hover { background-color: #ff4757; }
+        .btn:active { transform: translateX(-50%) scale(0.95); }
 
         /* Game Styles */
         .game-container {
@@ -86,7 +116,7 @@
         .envelope {
             width: 80px;
             height: 100px;
-            background-color: #d32f2f;
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
             color: white;
             border-radius: 10px;
             display: flex;
@@ -94,7 +124,7 @@
             justify-content: center;
             font-size: 2em;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             transition: transform 0.2s;
             border: 2px solid #ffd700;
         }
@@ -108,35 +138,53 @@
             min-height: 80px; 
         }
 
-        /* Pop animation for the secret message */
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            80% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
         .secret-message {
             display: block;
             font-size: 1.6em;
             margin-top: 15px;
-            animation: popIn 0.6s ease-out forwards;
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        /* The Growing & Turning Cake Animation */
+        .magic-cake {
+            font-size: 1em; /* Starts small */
+            display: inline-block;
+            opacity: 0;
+        }
+
+        .slide.active .magic-cake {
+            animation: growAndTurn 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        }
+
+        @keyframes growAndTurn {
+            0% { transform: scale(0.1) rotate(0deg); opacity: 0; }
+            50% { transform: scale(3) rotate(720deg); opacity: 1; }
+            100% { transform: scale(5) rotate(1080deg); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
+<div id="floating-bg"></div>
+
 <div class="card-container">
     
     <div class="slide active">
         <div class="page-num">1 / 10</div>
-        <span class="icon">🎂</span>
+        <span class="icon">🥳</span>
         <h1>曹怡芳 外婆</h1>
         <p>祝您生日快乐！</p>
-        <p style="color: #ff6b6b;">5月23日</p>
+        <p style="color: #ff6b6b; font-size: 1.5em;">2026年5月23日</p>
     </div>
 
     <div class="slide">
         <div class="page-num">2 / 10</div>
-        <span class="icon">🌍</span>
+        <span class="icon">🍁</span>
         <h1>好远好远</h1>
         <p>外婆，我现在在加拿大，<br>您在中国。</p>
     </div>
@@ -150,21 +198,21 @@
 
     <div class="slide">
         <div class="page-num">4 / 10</div>
-        <span class="icon">❤️</span>
+        <span class="icon">💭</span>
         <h1>一直想着您</h1>
         <p>虽然见不到面，<br>但是我每天都在想您！</p>
     </div>
 
     <div class="slide">
         <div class="page-num">5 / 10</div>
-        <span class="icon">🍲</span>
+        <span class="icon">🥟</span>
         <h1>小时候</h1>
         <p>我记得小时候，<br>您对我特别好。<br>您做的饭也特别好吃！</p>
     </div>
 
     <div class="slide">
         <div class="page-num">6 / 10</div>
-        <span class="icon">🍵</span>
+        <span class="icon">🧣</span>
         <h1>听话哦</h1>
         <p>外婆，您在家要乖乖吃饭，<br>多穿衣服，别感冒啦。</p>
     </div>
@@ -178,7 +226,7 @@
 
     <div class="slide">
         <div class="page-num">8 / 10</div>
-        <span class="icon">🎮</span>
+        <span class="icon">🎁</span>
         <h1>玩游戏啦</h1>
         <p>外婆，我给您准备了<br>一个小游戏！<br>点下一页开始吧！</p>
     </div>
@@ -198,16 +246,34 @@
 
     <div class="slide">
         <div class="page-num">10 / 10</div>
-        <span class="icon">💖</span>
-        <h1>永远爱您</h1>
-        <p>外婆，祝您天天开心，<br>身体健健康康！</p>
-        <p style="color: #ff6b6b;">一哥最爱您了！</p>
+        <h1 style="margin-bottom: 50px;">一哥最爱您了！</h1>
+        
+        <div style="height: 150px; margin-bottom: 30px;">
+            <span class="magic-cake">🎂</span>
+        </div>
+        
+        <p style="color: #ff6b6b; margin-top: 30px;">外婆，身体健康，天天开心！</p>
     </div>
 
     <button class="btn" id="nextBtn" onclick="nextSlide()">下一页</button>
 </div>
 
 <script>
+    // Background Floating Hearts and Stars
+    const bgContainer = document.getElementById('floating-bg');
+    const items = ['❤️', '✨', '⭐', '💖'];
+    for(let i = 0; i < 20; i++) {
+        let el = document.createElement('div');
+        el.className = 'floating-item';
+        el.innerText = items[Math.floor(Math.random() * items.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
+        el.style.animationDuration = (Math.random() * 8 + 5) + 's';
+        el.style.animationDelay = Math.random() * 5 + 's';
+        bgContainer.appendChild(el);
+    }
+
+    // Slideshow Logic
     let current = 0;
     const slides = document.querySelectorAll('.slide');
     const btn = document.getElementById('nextBtn');
@@ -228,23 +294,21 @@
     function checkGame(element, isWinner) {
         const messageBox = document.getElementById('game-message');
         
-        // Reset all envelopes first
         const envelopes = document.querySelectorAll('.envelope');
         envelopes.forEach(env => {
             env.innerHTML = "🧧";
-            env.style.backgroundColor = "#d32f2f";
+            env.style.background = "linear-gradient(135deg, #d32f2f, #b71c1c)";
         });
 
         if (isWinner) {
             element.innerHTML = "🍑";
-            element.style.backgroundColor = "#ffd700"; // Gold color
+            element.style.background = "#ffd700"; 
             
-            // This is where the custom nickname, heart, and cake pop up!
             messageBox.innerHTML = "太棒啦！找到寿桃啦！👏<br><span class='secret-message'>❤️ 一哥爱你！ 🎂</span>";
             messageBox.style.color = "#d32f2f";
         } else {
             element.innerHTML = "空";
-            element.style.backgroundColor = "#ccc"; // Gray for empty
+            element.style.background = "#ccc"; 
             messageBox.innerHTML = "不在这里，再猜一次！";
             messageBox.style.color = "#666";
         }
